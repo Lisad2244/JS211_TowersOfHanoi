@@ -24,34 +24,53 @@ let stacks = {
 
 // Start here. What is this function doing?
 const printStacks = () => {
-  console.log("a: " + stacks.a);
-  console.log("b: " + stacks.b);
-  console.log("c: " + stacks.c);
-}
+  console.log('a: ' + stacks.a);
+  console.log('b: ' + stacks.b);
+  console.log('c: ' + stacks.c);
+};
 
 // Next, what do you think this function should do?
-const movePiece = () => {
+const movePiece = (startStack, endStack) => {
   // Your code here
-
-}
+let disk = stacks[startStack].pop();
+stacks[endStack].push(disk);
+};
 
 // Before you move, should you check if the move it actually allowed? Should 3 be able to be stacked on 2
-const isLegal = () => {
+const isLegal = (startStack, endStack) => {
   // Your code here
-
+if (stacks[endStack].length === 0) {
+  console.log('This move is legal');
+  return true;
 }
+if (stacks[endStack].slice(-1) > stacks[startStack].slice(-1)) {
+  console.log('This move is legal');
+  return true;
+}
+console.log('This move is illegal');
+return false;
+};
 
 // What is a win in Towers of Hanoi? When should this function run?
-const checkForWin = () => {
+const checkForWin = (startStack, endStack) => {
   // Your code here
-
+if (stacks['b'].length ===4) {
+  console.log('you win!');
+  return true;
+} else {
+  return false;
 }
+};
 
 // When is this function called? What should it do with its argument?
 const towersOfHanoi = (startStack, endStack) => {
   // Your code here
-
+console.log(startStack, endStack);
+if (isLegal(startStack, endStack)) {
+  movePiece(startStack, endStack);
+  checkForWin();
 }
+};
 
 const getPrompt = () => {
   printStacks();
@@ -66,7 +85,6 @@ const getPrompt = () => {
 // Tests
 
 if (typeof describe === 'function') {
-
   describe('#towersOfHanoi()', () => {
     it('should be able to move a block', () => {
       towersOfHanoi('a', 'b');
@@ -79,7 +97,7 @@ if (typeof describe === 'function') {
       stacks = {
         a: [4, 3, 2],
         b: [1],
-        c: []
+        c: [],
       };
       assert.equal(isLegal('a', 'b'), false);
     });
@@ -87,7 +105,7 @@ if (typeof describe === 'function') {
       stacks = {
         a: [4, 3, 2, 1],
         b: [],
-        c: []
+        c: [],
       };
       assert.equal(isLegal('a', 'c'), true);
     });
